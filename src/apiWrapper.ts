@@ -134,7 +134,7 @@ export const getPageSpec = (pageId: string) => {
 };
 
 // weather
-export const getWeather = (lat: number, lon: number) => {
-    const url = `${API_URL}/weather/?lat=${lat}&lon=${lon}`;
+export const getWeather = (lat: string, lon: string) => {
+    const url = `${API_URL}/integration/weather/?lat=${lat}&lon=${lon}`;
     return receiveData({ url });
 };
