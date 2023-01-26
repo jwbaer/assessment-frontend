@@ -1,19 +1,23 @@
-import { List, PageSpec } from '../types';
+import './styles.scss';
 
-import ComponentPanel from './component-panel';
-import React from 'react';
+import { List, PageSpec } from "../types";
+import React, { useContext } from "react";
 
-const ListPanel = ({ pageSpec, id }: { pageSpec: PageSpec, id: number }) => {
+import ComponentPanel from "./component-panel";
+import { PageContext } from "./page";
+
+const ListPanel = ({ id }: { id: number }) => {
+    const { pageSpec } = useContext(PageContext);
     const listToRender: List | undefined = pageSpec.listIndex.get(id);
-    console.log(listToRender);
 
-    return (
-        listToRender?.components ?
-            <>
-                {listToRender.components.map(compId => (<ComponentPanel key={compId} pageSpec={pageSpec} id={compId} />))}
-            </>
-            :
-            <></>
+    return listToRender?.components ? (
+        <div className="list">
+            {listToRender.components.map((compId) => (
+                <ComponentPanel key={compId} id={compId} />
+            ))}
+        </div>
+    ) : (
+        <></>
     );
 };
 

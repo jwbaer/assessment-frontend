@@ -7,6 +7,7 @@ export enum ComponentType {
 
 export interface ButtonOptions {
   text: string
+  icon: string
   value: string
   variable: string
 }
@@ -60,7 +61,6 @@ export interface PageSpec {
   componentIndex: Map<number, Component>
   listIndex: Map<number, List>
   variableIndex?:Map<string, Variable>
-  rootList: number
 }
 
 export interface WeatherDay {

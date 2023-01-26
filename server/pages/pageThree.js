@@ -57,6 +57,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'Show Time',
+                icon: 'show',
                 variable: 'show_image',
                 value: 'show',
             },
@@ -66,6 +67,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'Hide Time',
+                icon: 'hide',
                 variable: 'show_image',
                 value: 'hide',
             },
@@ -93,6 +95,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'New York',
+                icon: 'location',
                 variable: 'location',
                 value: 'ny',
             },
@@ -102,6 +105,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'San Francisco',
+                icon: 'location',
                 variable: 'location',
                 value: 'ca',
             },
@@ -111,6 +115,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'Chicago',
+                icon: 'location',
                 variable: 'location',
                 value: 'ch',
             },

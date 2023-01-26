@@ -24,6 +24,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'Show',
+                icon: 'show',
                 variable: 'show_weather',
                 value: 'show',
             },
@@ -33,6 +34,7 @@ module.exports = {
             type: 'button',
             options: {
                 text: 'Hide',
+                icon: 'hide',
                 variable: 'show_weather',
                 value: 'hide',
             },

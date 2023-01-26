@@ -1,28 +1,27 @@
-import { Component, ComponentType, ConditionOptions, ImageOptions, PageSpec } from '../types';
+import './styles.scss';
 
-import ButtonComponent from './button-component'
+import { Component, ComponentType, ConditionOptions, ImageOptions } from '../types';
+import React, { useContext } from 'react';
+
+import ButtonComponent from './button-component';
+import ConditionComponent from './condition-component';
+import ImageComponent from './image-component';
 import ListPanel from './list-panel';
-import React from 'react';
-import WeatherComponent from './weather-component'
+import { PageContext } from './page';
+import WeatherComponent from './weather-component';
 
-const ComponentPanel = ({ pageSpec, id }: { pageSpec: PageSpec, id: number }) => {
+const ComponentPanel = ({ id }: { id: number }) => {
+    const { pageSpec } = useContext(PageContext);
     const compToRender: Component | undefined = pageSpec.componentIndex.get(id);
-    console.log(compToRender);
 
     if (compToRender) {
         switch (compToRender.type) {
             case ComponentType.button:
-                return(<ButtonComponent pageSpec={pageSpec} component={compToRender} />);
+                return(<ButtonComponent component={compToRender} />);
             case ComponentType.condition:
-                const condition = compToRender.options as ConditionOptions;
-                if (condition?.variable && pageSpec?.variableIndex?.get(condition.variable)?.value === condition.value && compToRender.children) {
-                    return(<ListPanel pageSpec={pageSpec} id={compToRender.children} />);
-                } else {
-                    return (<></>);
-                }
+                return(<ConditionComponent component={compToRender} />);
             case ComponentType.image:
-                const image = compToRender.options as ImageOptions;
-                return(<div style={{display: 'flex', backgroundColor: '#36f', borderRadius: '1em', maxWidth: '300px', height: "130px", flexDirection: 'column', justifyContent: 'center', overflow: 'hidden'}}><img style={{marginTop: '-20%', display:'flex', width: "100%", borderRadius: '2em'}} src={image.src} /></div>);
+                return(<ImageComponent component={compToRender} />);
             case ComponentType.weather:
                 return(<WeatherComponent component={compToRender} />);
             default:
