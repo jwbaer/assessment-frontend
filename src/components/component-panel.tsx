@@ -1,12 +1,11 @@
 import './styles.scss';
 
-import { Component, ComponentType, ConditionOptions, ImageOptions } from '../types';
+import { Component, ComponentType } from '../types';
 import React, { useContext } from 'react';
 
 import ButtonComponent from './button-component';
 import ConditionComponent from './condition-component';
 import ImageComponent from './image-component';
-import ListPanel from './list-panel';
 import { PageContext } from './page';
 import WeatherComponent from './weather-component';
 
