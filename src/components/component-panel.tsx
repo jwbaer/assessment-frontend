@@ -6,12 +6,12 @@ import React, { useContext } from 'react';
 import ButtonComponent from './button-component';
 import ConditionComponent from './condition-component';
 import ImageComponent from './image-component';
-import { PageContext } from './page';
+import PageContext from "../contexts/page-context";
 import WeatherComponent from './weather-component';
 
-const ComponentPanel = ({ id }: { id: number }) => {
+const ComponentPanel = ({ componentId }: { componentId: number }) => {
     const { pageSpec } = useContext(PageContext);
-    const compToRender: Component | undefined = pageSpec.componentIndex.get(id);
+    const compToRender: Component | undefined = pageSpec.componentIndex.get(componentId);
 
     if (compToRender) {
         switch (compToRender.type) {

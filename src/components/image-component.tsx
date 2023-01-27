@@ -8,8 +8,12 @@ const ImageComponent = ({ component }: { component: Component }) => {
     const options = component?.options as ImageOptions;
 
     return options ? (
-        <div className="component image">
-            <img alt={options.alt} src={options.src} />
+        <div data-testid={`image-component-${component.id}`} className="component image">
+            <img
+                data-testid={`image-component-${component.id}-image`}
+                alt={options.alt}
+                src={options.src}
+            />
         </div>
     ) : (
         <></>

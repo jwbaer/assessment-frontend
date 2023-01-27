@@ -5,7 +5,7 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import React, { useContext } from 'react';
 
 import { GoLocation } from 'react-icons/go';
-import { PageContext } from './page';
+import PageContext from '../contexts/page-context';
 
 const ButtonComponent = ({ component }: { component: Component }) => {
     const { pageSpec, setPageSpec } = useContext(PageContext);
@@ -22,6 +22,7 @@ const ButtonComponent = ({ component }: { component: Component }) => {
     return (
         options?
             <div
+                data-testid={`button-component-${component.id}`}
                 className="component button"
                 onClick={handleClick}
             >

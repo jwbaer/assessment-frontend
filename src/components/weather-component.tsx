@@ -15,7 +15,6 @@ const WeatherComponent = ({ component }: { component: Component }) => {
         getWeather(options.lat, options.lon).then((response) => {
             const apiResult: WeatherApiResult = response?.data;
             if (apiResult) {
-                console.log(apiResult);
                 setWeather(apiResult);
             }
         });
@@ -35,7 +34,10 @@ const WeatherComponent = ({ component }: { component: Component }) => {
     }, []);
 
     return weather ? (
-        <div className="component weather">
+        <div 
+            className="component weather"
+            data-testid={`weather-component-${component.id}`}
+        >
             <div className="top-row">
                 <div className="current-weather">
                     <div className="main-weather-icon">{getWeatherIcon(weather.condition)}</div>
