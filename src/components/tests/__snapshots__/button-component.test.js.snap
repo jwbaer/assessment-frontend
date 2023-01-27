@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ButtonComponent /> spec renders 1`] = `
+<DocumentFragment>
+  <div
+    class="component button"
+    data-testid="button-component-1"
+  >
+    <div
+      class="label"
+    >
+      Show
+    </div>
+    <div
+      class="icon"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="32"
+        />
+        <circle
+          cx="256"
+          cy="256"
+          fill="none"
+          r="80"
+          stroke-miterlimit="10"
+          stroke-width="32"
+        />
+      </svg>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<ButtonComponent /> spec renders all components as list, and changes value when clicked on 1`] = `
+<DocumentFragment>
+  <div
+    class="list"
+  >
+    <div
+      class="component button"
+      data-testid="button-component-1"
+    >
+      <div
+        class="label"
+      >
+        Show
+      </div>
+      <div
+        class="icon"
+      >
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 512 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="32"
+          />
+          <circle
+            cx="256"
+            cy="256"
+            fill="none"
+            r="80"
+            stroke-miterlimit="10"
+            stroke-width="32"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<ButtonComponent /> spec renders through the component panel 1`] = `
+<DocumentFragment>
+  <div
+    class="component button"
+    data-testid="button-component-1"
+  >
+    <div
+      class="label"
+    >
+      Show
+    </div>
+    <div
+      class="icon"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="32"
+        />
+        <circle
+          cx="256"
+          cy="256"
+          fill="none"
+          r="80"
+          stroke-miterlimit="10"
+          stroke-width="32"
+        />
+      </svg>
+    </div>
+  </div>
+</DocumentFragment>
+`;
