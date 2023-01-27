@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ConditionComponent /> spec does not render the child list when condition is false 1`] = `<DocumentFragment />`;
+
+exports[`<ConditionComponent /> spec renders the child list when condition is true 1`] = `
+<DocumentFragment>
+  <div
+    class="list"
+  >
+    <div
+      class="component image"
+      data-testid="image-component-2"
+    >
+      <img
+        alt="Cartoon of New York skyline"
+        data-testid="image-component-2-image"
+        src="/locations/new-york.png"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`<ConditionComponent /> spec renders when specifed through the component panel 1`] = `
+<DocumentFragment>
+  <div
+    class="list"
+  >
+    <div
+      class="component image"
+      data-testid="image-component-2"
+    >
+      <img
+        alt="Cartoon of New York skyline"
+        data-testid="image-component-2-image"
+        src="/locations/new-york.png"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
