@@ -1,7 +1,7 @@
 import "./styles.scss";
 
 import { Component, WeatherApiResult, WeatherOptions } from "../types";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import ClearDay from "../icons/clear-day";
 import Cloudy from "../icons/cloudy";
@@ -10,14 +10,25 @@ import { getWeather } from "../apiWrapper";
 
 const WeatherComponent = ({ component }: { component: Component }) => {
     const options = component?.options as WeatherOptions;
+    const mounted = useRef(false);
     const [weather, setWeather] = useState<undefined | WeatherApiResult>();
+    const [apiError, setApiError] = useState(false);
+
     useEffect(() => {
+        mounted.current = true;
         getWeather(options.lat, options.lon).then((response) => {
             const apiResult: WeatherApiResult = response?.data;
-            if (apiResult) {
+            if (apiResult && mounted.current) {
                 setWeather(apiResult);
             }
+        }).catch((error) => {
+            if (mounted.current) {
+                setApiError(true);
+            }
         });
+        return () => {
+            mounted.current = false;
+        };
     }, [options.lat, options.lon]);
 
     const getWeatherIcon = useCallback((condition: string) => {
@@ -34,7 +45,7 @@ const WeatherComponent = ({ component }: { component: Component }) => {
     }, []);
 
     return weather ? (
-        <div 
+        <div
             className="component weather"
             data-testid={`weather-component-${component.id}`}
         >
@@ -66,7 +77,10 @@ const WeatherComponent = ({ component }: { component: Component }) => {
             </div>
         </div>
     ) : (
-        <div className="component weather placeholder">Loading...</div>
+        apiError ?
+            <div className="component weather placeholder">Error loading weather</div>
+            :
+            <div className="component weather placeholder">Loading...</div>
     );
 };
 

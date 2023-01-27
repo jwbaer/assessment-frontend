@@ -1,16 +1,18 @@
-import { render, screen } from "@testing-library/react";
+import * as apiWrapper from "../../apiWrapper";
+
+import { act, render, screen, waitFor } from "@testing-library/react";
 
 import ComponentPanel from "../component-panel";
 import PageContext from "../../contexts/page-context";
 import WeatherComponent from "../weather-component";
-import axios from 'axios';
 import { convertPageApiResultToPageSpec } from "../../util";
 
-jest.mock('axios');
+jest.mock("../../apiWrapper");
 
 describe("<WeatherComponent /> spec", () => {
+    beforeEach(() => jest.clearAllMocks());
 
-    const apiResult= {
+    const apiResult = {
         lists: [
             {
                 id: 0,
@@ -20,92 +22,126 @@ describe("<WeatherComponent /> spec", () => {
         components: [
             {
                 id: 1,
-                type: 'weather',
+                type: "weather",
                 options: {
-                    lon: '40.748607102729295',
-                    lat: '-73.98563758004718',
-                }
+                    lon: "40.748607102729295",
+                    lat: "-73.98563758004718",
+                },
             },
         ],
     };
 
-    const weatherApiResponse = {
-        data: {
-            lon: '40.748607102729295',
-            lat: '-73.98563758004718',
-            condition: 'cloudy',
-            conditionName: 'Cloudy',
-            temperature: 78,
-            unit: 'f',
-            location: 'New York, NY',
-            upcomming: [
-                {
-                    day: 'Fri',
-                    condition: 'cloudy',
-                    conditionName: 'Cloudy',
-                },
-                {
-                    day: 'Sat',
-                    condition: 'cloudy',
-                    conditionName: 'Cloudy',
-                },
-                {
-                    day: 'Sun',
-                    condition: 'rain',
-                    conditionName: 'Rain',
-                },
-            ],
-        },
+    const data = {
+        lon: "40.748607102729295",
+        lat: "-73.98563758004718",
+        condition: "cloudy",
+        conditionName: "Cloudy",
+        temperature: 78,
+        unit: "f",
+        location: "New York, NY",
+        upcomming: [
+            {
+                day: "Fri",
+                condition: "cloudy",
+                conditionName: "Cloudy",
+            },
+            {
+                day: "Sat",
+                condition: "cloudy",
+                conditionName: "Cloudy",
+            },
+            {
+                day: "Sun",
+                condition: "rain",
+                conditionName: "Rain",
+            },
+        ],
     };
 
     const pageSpec = convertPageApiResultToPageSpec(apiResult);
 
-    it("renders the component", () => {
-        axios.get.mockResolvedValueOnce(weatherApiResponse)
-        const setPageSpec = jest.fn();
+    it("renders the component", async () => {
+        apiWrapper.getWeather.mockResolvedValue({ data });
         const { asFragment } = render(
-            <WeatherComponent component={{
-                id: 1,
-                type: 'weather',
-                options: {
-                    lon: '40.748607102729295',
-                    lat: '-73.98563758004718',
-                }
-            }}/>
+            <WeatherComponent
+                component={{
+                    id: 1,
+                    type: "weather",
+                    options: {
+                        lon: "40.748607102729295",
+                        lat: "-73.98563758004718",
+                    },
+                }}
+            />
         );
 
-        expect(screen.getByText('Loading...')).toBeDefined();
+        expect(screen.getByText("Loading...")).toBeDefined();
 
-        setTimeout(() => {
-            expect(screen.getByText('New York, NY')).toBeDefined();
-            expect(screen.getByText('78˚F')).toBeDefined();
-            expect(screen.getByText('Cloudy')).toBeDefined();
-            expect(screen.getByText('Fri')).toBeDefined();
-            expect(screen.getByText('Sat')).toBeDefined();
-            expect(screen.getByText('Sun')).toBeDefined();
-            expect(asFragment()).toMatchSnapshot();
-        }, 100);
+        await act(
+            async () =>
+                await waitFor(() => {
+                    expect(screen.getByText("New York, NY")).toBeDefined();
+                    expect(screen.getByText(/78.F/i)).toBeDefined();
+                    expect(screen.getByText("Cloudy")).toBeDefined();
+                    expect(screen.getByText("Fri")).toBeDefined();
+                    expect(screen.getByText("Sat")).toBeDefined();
+                    expect(screen.getByText("Sun")).toBeDefined();
+                    expect(asFragment()).toMatchSnapshot();
+                })
+        );
     });
 
-    it("renders when specifed through the component panel", () => {
-        axios.get.mockResolvedValueOnce(weatherApiResponse)
+    it("renders an error on a API error", async () => {
+        apiWrapper.getWeather.mockRejectedValue({});
+        const { asFragment } = render(
+            <WeatherComponent
+                component={{
+                    id: 1,
+                    type: "weather",
+                    options: {
+                        lon: "40.748607102729295",
+                        lat: "-73.98563758004718",
+                    },
+                }}
+            />
+        );
+
+        expect(screen.getByText("Loading...")).toBeDefined();
+
+        await act(
+            async () =>
+                await waitFor(() => {
+                    expect(screen.getByText("Error loading weather")).toBeDefined();
+                    expect(asFragment()).toMatchSnapshot();
+                })
+        );
+    });
+
+    it("renders when specifed through the component panel", async () => {
+        apiWrapper.getWeather.mockResolvedValue({
+            data,
+        });
+
         const setPageSpec = jest.fn();
         const { asFragment } = render(
-            <PageContext.Provider value={{ pageSpec, setPageSpec}}>
+            <PageContext.Provider value={{ pageSpec, setPageSpec }}>
                 <ComponentPanel componentId={1} />
             </PageContext.Provider>
         );
 
-        expect(screen.getByText('Loading...')).toBeDefined();
+        expect(screen.getByText("Loading...")).toBeDefined();
 
-        setTimeout(() => {
-            expect(screen.getByText('New York, NY')).toBeDefined();
-            expect(screen.getByText('78˚F')).toBeDefined();
-            expect(screen.getByText('Cloudy')).toBeDefined();
-            expect(screen.getByText('Fri')).toBeDefined();
-            expect(screen.getByText('Sat')).toBeDefined();
-            expect(screen.getByText('Sun')).toBeDefined();
-            expect(asFragment()).toMatchSnapshot();
-        }, 100);
+        await act(
+            async () =>
+                await waitFor(() => {
+                    expect(screen.getByText("New York, NY")).toBeDefined();
+                    expect(screen.getByText(/78.F/i)).toBeDefined();
+                    expect(screen.getByText("Cloudy")).toBeDefined();
+                    expect(screen.getByText("Fri")).toBeDefined();
+                    expect(screen.getByText("Sat")).toBeDefined();
+                    expect(screen.getByText("Sun")).toBeDefined();
+                    expect(asFragment()).toMatchSnapshot();
+                })
+        );
     });
 });

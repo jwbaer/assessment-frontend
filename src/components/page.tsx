@@ -8,13 +8,20 @@ import { getPageSpec } from "../apiWrapper";
 
 const Page = ({ id }: { id: string }) => {
     const [pageSpec, setPageSpec] = useState<undefined | PageSpec>();
+    const [apiError, setApiError] = useState<undefined | string>();
 
     useEffect(() => {
         getPageSpec(id).then((response) => {
             const apiResult: PageApiResult = response?.data;
             if (apiResult?.components && apiResult?.lists) {
-                console.log(apiResult);
                 setPageSpec(convertPageApiResultToPageSpec(apiResult));
+            }
+        }).catch((error) => {
+            const errorObj = error.toJSON();
+            if(errorObj.status == 404) {
+                setApiError(`Page with ID "${id}" not found`);
+            } else {
+                setApiError(`Error loading page "${id}"`);
             }
         });
     }, [id]);
@@ -24,7 +31,10 @@ const Page = ({ id }: { id: string }) => {
             <ListPanel listId={0} />
         </PageContext.Provider>
     ) : (
-        <div>Loading...</div>
+        apiError?
+            <div>{apiError}</div>
+            :
+            <div>Loading...</div>
     );
 };
 
