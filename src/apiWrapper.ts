@@ -10,12 +10,10 @@ const API_URL = 'http://localhost:3030';
 // this initial block sets up the axios client and
 // all the needed interceptors
 
-export const axiosInstance = axios.create();
-
 // throttle to a max number of concurrent requests
 // this helps to insure that in the case of a client side
 // bug, we don't accidentally DDOS our own service
-axiosInstance.interceptors.request.use((config) => {
+axios.interceptors.request.use((config) => {
     return new Promise((resolve, reject) => {
         let interval = setInterval(() => {
             if (_currentInflightRequests < MAX_INFLIGHT_REQUESTS) {
@@ -49,13 +47,13 @@ const retryAfter = {
         if (!error.config) {
             throw error;
         } else {
-            return axiosInstance(error.config);
+            return axios(error.config);
         }
     },
 };
 
 // create the retry-after interceptor
-axiosInstance.interceptors.response.use(null as any, async (error) => {
+axios.interceptors.response.use(null as any, async (error) => {
     if (retryAfter.isRetryable(error)) {
         await retryAfter.wait(error);
         return retryAfter.retry(error);
@@ -65,7 +63,7 @@ axiosInstance.interceptors.response.use(null as any, async (error) => {
 });
 
 // once a response is done, make sure we decrement the inflight request count
-axiosInstance.interceptors.response.use(
+axios.interceptors.response.use(
     (response) => {
         _currentInflightRequests = Math.max(0, _currentInflightRequests - 1);
         return Promise.resolve(response);
@@ -91,7 +89,7 @@ axiosInstance.interceptors.response.use(
 export const receiveData = async (params: { url: string }) => {
     const endpoint = params.url;
 
-    const response = await axiosInstance({
+    const response = await axios({
         method: "GET",
         url: endpoint,
         timeout: 60000,
@@ -114,7 +112,7 @@ export const sendData = async (
 ) => {
     const endpoint = params.url;
 
-    const response = await axiosInstance({
+    const response = await axios({
         method,
         data: params.data,
         url: endpoint,
